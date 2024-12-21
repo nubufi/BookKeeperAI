@@ -1,0 +1,9 @@
+services:
+  book_keeper_app:
+    build: .
+    ports:
+      - "9000:9000"  # Map Gradio app port
+    volumes:
+      - ./src:/app       # Mount the project directory for live code updates (optional)
+    env_file:
+      - .env

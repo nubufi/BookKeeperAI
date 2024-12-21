@@ -12,8 +12,10 @@ python-dotenv = "*"
 flask = "*"
 langchain-openai = "*"
 langgraph-checkpoint-sqlite = "*"
-gradio = "*"
 tabulate = "*"
+gradio = "*"
+pytest = "*"
+pytest-mock = "*"
 
 [dev-packages]
 ipykernel = "*"
