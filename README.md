@@ -39,8 +39,8 @@ Follow the steps below to set up and run the project:
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+git clone git@github.com:nubufi/BookKeeperAI.git
+cd BookKeeperAI
 ```
 
 ### 2. Set Up Environment Variables
