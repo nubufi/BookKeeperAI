@@ -13,6 +13,7 @@ flask = "*"
 langchain-openai = "*"
 langgraph-checkpoint-sqlite = "*"
 gradio = "*"
+tabulate = "*"
 
 [dev-packages]
 ipykernel = "*"
