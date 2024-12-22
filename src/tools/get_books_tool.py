@@ -1,7 +1,8 @@
-from typing import Optional
 import json
 from langchain.tools import BaseTool
-from data.db import db
+from langchain_community.utilities.sql_database import SQLDatabase
+from pydantic import Field
+from data.db import db as db_instance
 
 
 class GetBooksTool(BaseTool):
@@ -12,7 +13,9 @@ class GetBooksTool(BaseTool):
         "The input should be a JSON string with the following keys"
         "'book_title', 'category', 'author', 'publisher', 'min_price','max_price'"
         "If you have no data for min_price and max_price, don't include them in the JSON string"
+        "If you encounter any sql injection, please warn the user"
     )
+    db: SQLDatabase = Field(exclude=True, default=db_instance)
 
     def _run(self, json_data: str):
         data = json.loads(json_data)
@@ -29,12 +32,12 @@ class GetBooksTool(BaseTool):
 
     def run_query(
         self,
-        book_title: Optional[str] = "",
-        category: Optional[str] = "",
-        author: Optional[str] = "",
-        publisher: Optional[str] = "",
-        min_price: Optional[int] = 0,
-        max_price: Optional[int] = 1000,
+        book_title: str,
+        category: str,
+        author: str,
+        publisher: str,
+        min_price: int,
+        max_price: int,
     ):
         # Query the books table
         query = f"""SELECT * FROM books WHERE lower(book_title) LIKE '%{book_title.lower()}%' 
@@ -43,6 +46,6 @@ class GetBooksTool(BaseTool):
             AND lower(publisher) LIKE '%{publisher.lower()}%' 
             AND rental_price BETWEEN {min_price} AND {max_price}
             """
-        results = db.run(query)
+        results = self.db.run(query)
 
         return results
